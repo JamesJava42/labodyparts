@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoBodyParts Hub | Guided Fitment Selector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">AB</span>
+        <div>
+          <h1>AutoBodyParts Hub</h1>
+          <p>Guided vehicle fitment and part confirmation.</p>
+        </div>
+      </div>
+      <button id="cartToggle" class="secondary-btn" type="button">Order Request (<span id="cartCount">0</span>)</button>
+    </header>
+
+    <main>
+      <section class="hero panel">
+        <p class="eyebrow">Buy With Confidence</p>
+        <h2>Find exact-fit parts and place your order in minutes.</h2>
+        <p class="muted">Choose vehicle, select zone, confirm highlighted part, and submit order for a representative callback and dispatch update.</p>
+        <div class="flow-inline">
+          <span>Vehicle</span>
+          <span>Zone</span>
+          <span>Part</span>
+          <span>Confirm</span>
+          <span>Order</span>
+        </div>
+      </section>
+
+      <section class="panel vehicle-section">
+        <div class="section-head">
+          <h3>Select Vehicle</h3>
+          <p id="vehicleCount" class="muted">0 matches</p>
+        </div>
+        <div class="vehicle-filters">
+          <label>
+            Year
+            <select id="yearFilter"></select>
+          </label>
+          <label>
+            Make
+            <select id="makeFilter"></select>
+          </label>
+          <label>
+            Type
+            <select id="typeFilter"></select>
+          </label>
+          <label>
+            Search
+            <input id="vehicleSearch" type="text" placeholder="Camry, SUV, 2022..." />
+          </label>
+        </div>
+        <label class="vehicle-select-label">
+          Matching Vehicles
+          <select id="vehicleSelect">
+            <option value="">Select vehicle</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="panel selector-section">
+        <div class="selector-layout">
+          <article>
+            <h3>Part Confirmation Preview</h3>
+            <p id="selectedVehicleText" class="muted">Select a vehicle to continue.</p>
+            <div class="car-scene" aria-label="Part location preview">
+              <div class="car-model">
+                <div class="car-shell"></div>
+                <div id="region-front" class="region region-front"></div>
+                <div id="region-rear" class="region region-rear"></div>
+                <div id="region-side-left" class="region region-side-left"></div>
+                <div id="region-side-right" class="region region-side-right"></div>
+                <div id="region-center" class="region region-center"></div>
+                <div id="region-top" class="region region-top"></div>
+                <div id="region-bottom" class="region region-bottom"></div>
+                <div class="car-glass"></div>
+                <div class="wheel wheel-front"></div>
+                <div class="wheel wheel-rear"></div>
+                <div id="selectedPartTag" class="selected-part-tag">Selected part will show here</div>
+              </div>
+            </div>
+            <p id="highlightText" class="muted">Choose a part to highlight its location.</p>
+          </article>
+
+          <article>
+            <h3>Pick Part and Quantity</h3>
+            <div id="zoneFilters" class="zone-filters"></div>
+            <label>
+              Part for selected vehicle
+              <select id="partSelect" disabled>
+                <option value="">Select vehicle first</option>
+              </select>
+            </label>
+            <label>
+              Quantity
+              <input id="partQty" type="number" min="1" value="1" />
+            </label>
+            <button id="addSelectedPart" class="primary-btn" type="button" disabled>Add Selected Part</button>
+
+            <div id="partDetails" class="part-details muted">No part selected.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <h3>Parts For Selected Vehicle</h3>
+          <div class="parts-tools">
+            <input id="partSearch" type="text" placeholder="Search part name, category, or SKU" />
+            <select id="areaFilter">
+              <option value="all">All Areas</option>
+              <option value="front">Front</option>
+              <option value="rear">Rear</option>
+              <option value="left">Left Side</option>
+              <option value="right">Right Side</option>
+              <option value="top">Top</option>
+              <option value="bottom">Bottom</option>
+            </select>
+            <p id="partsCount" class="muted">0 parts</p>
+          </div>
+        </div>
+        <div id="vehicleParts" class="parts-grid"></div>
+      </section>
+    </main>
+
+    <aside id="cartPanel" class="cart" aria-hidden="true">
+      <div class="cart-header">
+        <h3>Checkout Request</h3>
+        <button id="closeCart" class="icon-btn" type="button" aria-label="Close">x</button>
+      </div>
+
+      <div id="cartItems" class="cart-items">
+        <p class="muted">No parts selected yet.</p>
+      </div>
+
+      <form id="orderForm" class="order-form">
+        <label>Full Name<input name="name" type="text" required /></label>
+        <label>Phone Number<input name="phone" type="tel" required /></label>
+        <label>Email<input name="email" type="email" required /></label>
+        <label>Street Address<input name="address" type="text" required /></label>
+
+        <div class="grid two">
+          <label>City<input name="city" type="text" required /></label>
+          <label>State<input name="state" type="text" maxlength="2" minlength="2" required /></label>
+        </div>
+
+        <div class="grid two">
+          <label>ZIP<input name="zip" type="text" required pattern="[0-9]{5}" /></label>
+          <label>Dispatch Distance (miles)<input id="distanceMiles" name="distance" type="number" min="1" max="3000" required /></label>
+        </div>
+
+        <label>
+          Shipping Speed
+          <select id="shippingSpeed" name="shipping">
+            <option value="standard">Standard</option>
+            <option value="express">Express (+15%)</option>
+          </select>
+        </label>
+
+        <label>
+          Notes
+          <textarea name="notes" rows="3" placeholder="Fitment details or special instructions"></textarea>
+        </label>
+
+        <div class="eta-box">
+          <p><strong>Estimated Delivery:</strong> <span id="etaText">Add distance to calculate</span></p>
+          <p><strong>Estimated Total:</strong> <span id="totalText">$0.00</span></p>
+        </div>
+
+        <button class="primary-btn" type="submit">Submit Order Request</button>
+      </form>
+
+      <div id="confirmation" class="confirmation" hidden></div>
+    </aside>
+
+    <script src="app.js"></script>
+  </body>
+</html>

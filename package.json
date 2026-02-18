@@ -1,0 +1,15 @@
+{
+  "name": "autobodyparts-hub",
+  "version": "1.0.0",
+  "description": "Auto body parts guided ordering app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "nodemailer": "^6.10.1"
+  }
+}
